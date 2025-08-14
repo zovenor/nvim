@@ -17,6 +17,7 @@ map("n", "<leader>d", "<C-w>c", { desc = "Close current window" })
 map("n", "<leader>w", "<CMD>cclose<CR>", { desc = "Close quickfix" })
 map("n", "<Tab>", "<cmd>cnext<CR>")
 map("n", "<S-Tab>", "<cmd>cprev<CR>")
+map("n", "E", vim.diagnostic.open_float, { desc = "Open floating diagnostic" })
 
 -------------------- Codeium --------------------
 vim.keymap.set("i", "ff", function()
@@ -26,9 +27,65 @@ end, { expr = true, silent = true })
 -------------------- Telescope --------------------
 
 local builtin = require("telescope.builtin")
-map("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-map("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
-map("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+
+local telescope_opts = {
+	previewer = false,
+	layout_config = {
+		height = 0.4,
+		width = 0.9,
+		prompt_position = "top",
+	},
+	border = true,
+	sorting_strategy = "ascending",
+}
+
+map("n", "<leader><leader>", function()
+	builtin.live_grep(vim.tbl_extend("force", telescope_opts, {
+		attach_mappings = function(_, map)
+			map("i", "<CR>", function(prompt_bufnr)
+				local action_state = require("telescope.actions.state")
+				local picker = action_state.get_current_picker(prompt_bufnr)
+				local manager = picker.manager
+
+				local results = {}
+				for entry in manager:iter() do
+					table.insert(results, {
+						filename = entry.filename,
+						lnum = entry.lnum,
+						col = entry.col or 1,
+						text = entry.text or entry.value,
+					})
+				end
+
+				vim.fn.setqflist({}, "r", {
+					title = "Telescope Live Grep",
+					items = results,
+				})
+				require("telescope.actions").close(prompt_bufnr)
+				vim.cmd("copen")
+			end)
+			return true
+		end,
+	}))
+end, { desc = "Live grep → quickfix" })
+
+map("n", "<leader>ff", function()
+	builtin.find_files(telescope_opts)
+end, { desc = "Find files" })
+
+map("n", "<leader>fb", function()
+	builtin.buffers(vim.tbl_extend("force", telescope_opts, {
+		attach_mappings = function(_, map)
+			map("i", "<C-d>", function(prompt_bufnr)
+				local action_state = require("telescope.actions.state")
+				local entry = action_state.get_selected_entry()
+				vim.api.nvim_buf_delete(entry.bufnr, { force = true })
+				require("telescope.actions").close(prompt_bufnr)
+			end)
+			return true
+		end,
+	}))
+end, { desc = "List buffers" })
 
 -------------------- Trouble --------------------
 map("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>", { desc = "Symbols (Trouble)" })
@@ -100,3 +157,19 @@ map("n", "<leader>de", function()
 	dapui.eval()
 end)
 map("n", "<leader>dn", "<CMD>DapNew<Cr>")
+
+-------------------- ToDo comments --------------------
+map("n", "]t", function()
+	require("todo-comments").jump_next()
+end, { desc = "Next todo comment" })
+
+map("n", "[t", function()
+	require("todo-comments").jump_prev()
+end, { desc = "Previous todo comment" })
+
+map("n", "<leader>T", ":TodoQuickFix<CR>", { desc = "Toggle todo comment" })
+
+-------------------- Diffview --------------------
+map("n", "<leader>gd", "<CMD>DiffviewOpen<CR>", { desc = "Open diff" })
+map("n", "<leader>gc", "<CMD>DiffviewClose<CR>", { desc = "Close diff" })
+map("n", "<leader>gh", "<CMD>DiffviewFileHistory<CR>", { desc = "File history" })

@@ -16,4 +16,13 @@ return {
 		},
 	},
 	{ "projekt0n/github-nvim-theme", name = "github-theme" },
+	{ "datsfilipe/vesper.nvim" },
+	{ "arturgoms/moonbow.nvim" },
+	{
+		"ficcdaf/ashen.nvim",
+		lazy = false,
+		opts = {
+			transparent = true,
+		},
+	},
 }

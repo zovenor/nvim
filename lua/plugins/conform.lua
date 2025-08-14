@@ -19,6 +19,8 @@ return {
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				go = { "gofumpt", "goimports" },
+				-- daml = { "hlint" },
+				proto = { "buf", "protolint" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

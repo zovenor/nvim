@@ -3,7 +3,7 @@ vim.opt.number = true
 vim.opt.clipboard = "unnamedplus"
 
 -- Theme
-vim.cmd([[colorscheme github_dark_default]])
+vim.cmd([[colorscheme ashen]])
 
 -- Quickfix Telescope
 vim.api.nvim_create_user_command("TelescopeQF", function()
@@ -17,3 +17,13 @@ vim.api.nvim_create_user_command("TelescopeQF", function()
 		end,
 	})
 end, {})
+
+vim.diagnostic.config({
+	virtual_text = {
+		prefix = "✘",
+		spacing = 4,
+	},
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+})
