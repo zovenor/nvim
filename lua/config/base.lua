@@ -3,7 +3,7 @@ vim.opt.number = true
 vim.opt.clipboard = "unnamedplus"
 
 -- Theme
-vim.cmd([[colorscheme ashen]])
+vim.cmd([[colorscheme spacecamp]])
 
 -- Quickfix Telescope
 vim.api.nvim_create_user_command("TelescopeQF", function()

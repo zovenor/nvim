@@ -25,4 +25,21 @@ return {
 			transparent = true,
 		},
 	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		opts = {},
+	},
+	{
+		"rebelot/kanagawa.nvim",
+	},
+	{
+		"tiagovla/tokyodark.nvim",
+		opts = {
+			transparent_background = true,
+		},
+	},
+	{
+		"jaredgorski/spacecamp",
+	},
 }

@@ -87,6 +87,35 @@ map("n", "<leader>fb", function()
 	}))
 end, { desc = "List buffers" })
 
+vim.keymap.set("n", "<leader>sR", function()
+	require("telescope.builtin").live_grep({
+		previewer = false,
+		layout_config = { width = 0.9, height = 0.4 },
+		attach_mappings = function(_, map)
+			-- Собираем результаты в Quickfix
+			map("i", "<C-q>", function(prompt_bufnr)
+				require("telescope.actions").send_all_to_qflist(prompt_bufnr)
+				require("telescope.actions").close(prompt_bufnr)
+
+				-- Запрашиваем замену
+				vim.ui.input({ prompt = "Replace all occurrences with: " }, function(new_text)
+					if new_text then
+						vim.cmd(
+							"cfdo %s/\\V"
+								.. vim.fn.escape(vim.fn.getreg("/"), "\\")
+								.. "/"
+								.. vim.fn.escape(new_text, "/")
+								.. "/g"
+						)
+					end
+				end)
+			end)
+
+			return true
+		end,
+	})
+end, { desc = "Bulk Search & Replace" })
+
 -------------------- Trouble --------------------
 map("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=true<cr>", { desc = "Symbols (Trouble)" })
 

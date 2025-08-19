@@ -21,11 +21,15 @@ return {
 				go = { "gofumpt", "goimports" },
 				-- daml = { "hlint" },
 				proto = { "buf", "protolint" },
+				sql = { "sqlfmt" },
+				bash = { "injected" },
+				json = { "jq" },
+				rust = { "rustfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 500,
+				timeout_ms = 1000,
 			},
 		})
 	end,
