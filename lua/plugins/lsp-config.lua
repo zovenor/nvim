@@ -1,18 +1,10 @@
 return {
-	-- LSP config
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			local lspconfig = require("lspconfig")
 
-			-- Настройка gopls
 			lspconfig.gopls.setup({
-				-- settings = {
-				-- 	gopls = {
-				-- 		analyses = { unusedparams = true },
-				-- 		staticcheck = true,
-				-- 	},
-				-- },
 				on_attach = function(_, bufnr)
 					local buf_map = function(mode, lhs, rhs, opts)
 						opts = opts or {}
