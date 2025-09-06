@@ -3,7 +3,7 @@ vim.opt.number = true
 vim.opt.clipboard = "unnamedplus"
 
 -- Theme
-vim.cmd([[colorscheme catppuccin]])
+vim.cmd([[colorscheme catppuccin""]])
 
 vim.diagnostic.config({
 	virtual_text = {
@@ -46,6 +46,7 @@ local function grep_and_send_to_quickfix()
 			local cmd_parts = {
 				"grep",
 				"-rnH",
+				"-E",
 				"--binary-files=without-match",
 				"--exclude-dir=.git",
 				pattern,

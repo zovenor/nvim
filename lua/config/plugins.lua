@@ -48,3 +48,10 @@ require("gitsigns").setup({
 		col = 1,
 	},
 })
+
+require("coerce").register_mode({
+	vim_mode = "v",
+	keymap_prefix = "<leader>",
+	selector = require("coerce.selector").select_current_word,
+	transformer = require("coerce.transformer").transform_local,
+})

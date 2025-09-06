@@ -9,13 +9,6 @@ return {
 		},
 	},
 	{
-		"ViViDboarder/wombat.nvim",
-		dependencies = { { "rktjmp/lush.nvim" } },
-		opts = {
-			ansi_colors_name = nil,
-		},
-	},
-	{
 		"projekt0n/github-nvim-theme",
 		name = "github-theme",
 		config = function()
@@ -127,4 +120,5 @@ return {
 			},
 		},
 	},
+	{ "JoosepAlviste/palenightfall.nvim" },
 }
